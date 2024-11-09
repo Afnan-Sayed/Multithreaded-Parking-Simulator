@@ -1,13 +1,25 @@
-//-feha attributes 3an el car zy arrival time, leave time, .. mmkn n7ot id ll car brdo
-//-run() -> simulates el thread, waits el available slot w enters el slot w leaves
-//
-//classes need this class:
-//gate: adds car to the q
-//parkingLot: fe parkSpot() w LeaveSpot()
-//logger: fe logLeaving() w Logarrival()
+public class Car {
+    static int idCounter = 0;
 
-public class Car{
+    int id, arriveTime, parkTime, leaveTime, gate;
+    Parking parking;
+    boolean waiting;
+    public Car(int arrive, int park, int gate, Parking parking){
+        id = idCounter++;
+        arriveTime = arrive;
+        parkTime = park;
+        this.gate = gate;
+        waiting = false;
+        this.parking = parking;
+        leaveTime = arriveTime + parkTime;
+    }
 
-
-
+    public void run() {
+        try {
+            Thread.sleep(arriveTime * 1000);
+            parking.parkSpot(id, gate, parkTime);
+        } catch (InterruptedException e) {
+            System.out.println("Error");
+        }
+    }
 }
