@@ -1,65 +1,50 @@
 package src.main.java.org.example;
 
-//ParkingLot class -> manage available spots and cars arrivinf and leaving
-//-parkSpot() -> 7agz spot ll car ama tege
-//-leaveSpot() -> nfadde spot lma el car tm4e
-//-getAvailableSpots()
-//-getTotalCarsServed()
-//-getCurrentCars()
-//-getDetails() -> anhe gates served kam car
-//
-//classes need this class
-//logger:  logParkingStatus() hatetagha
-
-import java.util.concurrent.*;
-
+import java.util.concurrent.Semaphore;
 public class ParkingLot
 {
-    private Semaphore semaphore;
-    private int totalCarsServed;
-    private int currentCars;
+    private Semaphore sem;
+    private int totalSpots;
+    private int carsServed;
     private Logger logger;
-
     public ParkingLot(int totalSpots, Logger logger)
     {
-        this.semaphore =new Semaphore(totalSpots);
-        this.totalCarsServed =0;
-        this.currentCars=0;
-        this.logger=logger;
+        this.totalSpots=totalSpots;
+        this.sem= new Semaphore(4);
+        this.logger = logger;
+        this.carsServed= 0;
     }
 
-    public boolean parkSpot()
-    {
-        if (semaphore.acquire())
-        {
-            currentCars++;
-            totalCarsServed++;
-            logger.logParkingStatus(this);
-            return true;
+    public boolean parkSpot(Car car) {
+        try {
+            if (sem.available())
+            {
+                sem.acquire();
+                logger.logParking(car, getOccupiedSpots());
+                carsServed++;
+                return true;
+            }
+            else return false;
+
         }
-        return false;
+
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void leaveSpot()
-    {
-        semaphore.release();
-        currentCars--;
-        logger.logParkingStatus(this);
+    public void leaveSpot(Car car) {
+        sem.release();
+        logger.logLeaving(car, getOccupiedSpots());
     }
 
-    public int getCurrentCars()
-    {
-        return currentCars;
+    public int getOccupiedSpots() {
+        return totalSpots - 4;
     }
 
-      public int getTotalCarsServed()
-      {
-        return totalCarsServed;
-    }
-
-    public void getDetails()
-    {
-        System.out.println("total served: " + totalCarsServed);
-        System.out.println("currrent in parking: " + currentCars);
+    public int getTotalCarsServed() {
+        return carsServed;
     }
 }

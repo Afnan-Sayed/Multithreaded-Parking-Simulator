@@ -1,12 +1,33 @@
 package src.main.java.org.example;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
 
-//Gate class
-//addCar() -> add a car to the gate's queue when generating a car
-//getCars()-> n3raf eh el cars ele fel q
-//
-//classes need this class:
-//parkingLot: el gate hateb3at ll parkingLot awl car fel q 34an t7gez mkan parkSpot()
-//logger: lma car tege, hy-log el arrival time wel leave
-public class Gate{
+public class Gate
+{
+    private int gateNumber;
+    private Queue<Car> carQueue;
+    public Gate(int gateNumber)
+    {
+        this.gateNumber = gateNumber;
+        this.carQueue = new LinkedList<>();
+    }
 
+    public void addCar(Car car) {
+        carQueue.add(car);
+
+    }
+
+    public Queue<Car> getCars() {
+        return carQueue;
+    }
+
+    public boolean hasCars() {
+        return !carQueue.isEmpty();
+    }
+
+
+    public int getGateNumber() {
+        return gateNumber;
+    }
 }

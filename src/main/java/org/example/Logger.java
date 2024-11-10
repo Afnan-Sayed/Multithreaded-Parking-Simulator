@@ -6,6 +6,15 @@ package src.main.java.org.example;//logger class -> logs each car from its arriv
 public class Logger{
 
 
-    public void logParkingStatus(ParkingLot parkingLot) {
+    public static void logParkingStatus(ParkingLot parkingLot) {
+    }
+
+    public static void logArrival(Car car) {
+    }
+
+    public void logLeaving(Car car, int occupiedSpots) {
+    }
+
+    public void logParking(Car car, int occupiedSpots) {
     }
 }
