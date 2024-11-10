@@ -1,4 +1,6 @@
-package src.main.java.org.example;//semaphore class -> controls access to available slots
+package src.main.java.org.example;
+
+//semaphore class -> controls access to available slots
 //acquire()
 //release()
 //available() -> checks available slots
