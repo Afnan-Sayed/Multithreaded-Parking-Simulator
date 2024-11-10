@@ -1,3 +1,5 @@
+package src.main.java.org.example;
+
 //Gate class
 //addCar() -> add a car to the gate's queue when generating a car
 //getCars()-> n3raf eh el cars ele fel q

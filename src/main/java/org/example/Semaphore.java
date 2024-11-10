@@ -1,4 +1,4 @@
-//semaphore class -> controls access to available slots
+package src.main.java.org.example;//semaphore class -> controls access to available slots
 //acquire()
 //release()
 //available() -> checks available slots
@@ -8,4 +8,13 @@
 
 public class Semaphore{
 
+    public Semaphore(int totalSpots) {
+    }
+
+    public boolean acquire() {
+        return true;
+    }
+
+    public void release() {
+    }
 }
