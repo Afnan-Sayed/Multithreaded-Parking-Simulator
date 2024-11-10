@@ -1,10 +1,11 @@
 public class Car {
     static int idCounter = 0;
 
-    int id, arriveTime, parkTime, leaveTime, gate;
+    int id, arriveTime, parkTime, leaveTime;
+    Gate gate;
     Parking parking;
     boolean waiting;
-    public Car(int arrive, int park, int gate, Parking parking){
+    public Car(int arrive, int park, Gate gate, Parking parking){
         id = idCounter++;
         arriveTime = arrive;
         parkTime = park;
@@ -17,7 +18,7 @@ public class Car {
     public void run() {
         try {
             Thread.sleep(arriveTime * 1000);
-            parking.parkSpot(id, gate, parkTime);
+            parking.parkSpot(this);
         } catch (InterruptedException e) {
             System.out.println("Error");
         }
