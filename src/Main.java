@@ -1,8 +1,9 @@
+public class Main
+{
+    public static void main(String[] args) throws InterruptedException {
 
-public class Main {
-    public static void main(String[] args)
-    {
-        Simulation simulation = new Simulation();
+        Simulation simulation = new Simulation("D:\\Uni\\Year 3\\1st Semester\\OS\\Operating-Systems-Assignment2\\input.txt");
         simulation.run();
+        simulation.endSimulation();
     }
 }
