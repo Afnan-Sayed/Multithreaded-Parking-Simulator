@@ -1,33 +1,45 @@
 package src.main.java.org.example;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
-
-public class Gate
+public class Gate implements Runnable
 {
-    private int gateNumber;
-    private Queue<Car> carQueue;
-    public Gate(int gateNumber)
-    {
+    private  ParkingLot parkingLot;
+    private  int gateNumber;
+    private int numberOfCars;
+    private  int[] arrivalTimes;
+    private  int[] parkingDurations;
+    private  int[] carIds;
+
+    public Gate(ParkingLot parkingLot, int gateNumber, int[] arrivalTimes, int[] parkingDurations) {
+        this.parkingLot = parkingLot;
         this.gateNumber = gateNumber;
-        this.carQueue = new LinkedList<>();
+        this.arrivalTimes = arrivalTimes;
+        this.parkingDurations = parkingDurations;
+        numberOfCars = 0;
     }
 
-    public void addCar(Car car) {
-        carQueue.add(car);
-
+    @Override
+    public void run()
+    {
+        for (int i = 0; i < arrivalTimes.length; i++)
+        {
+            try
+            {
+                Thread.sleep(arrivalTimes[i] * 1000L);
+                Car car = new Car(gateNumber, parkingDurations[i], carIds[i],arrivalTimes[i], parkingLot);
+                Thread carThread = new Thread(car);
+                carThread.start();
+            }
+            catch (InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
-
-    public Queue<Car> getCars() {
-        return carQueue;
+    public int getNumberOfCars()
+    {
+        return numberOfCars;
     }
-
-    public boolean hasCars() {
-        return !carQueue.isEmpty();
-    }
-
-
-    public int getGateNumber() {
-        return gateNumber;
+    public void setNumberOfCars()
+    {
+        numberOfCars++;
     }
 }

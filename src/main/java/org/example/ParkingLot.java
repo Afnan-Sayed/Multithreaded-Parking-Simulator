@@ -1,50 +1,47 @@
 package src.main.java.org.example;
-
-import java.util.concurrent.Semaphore;
 public class ParkingLot
 {
-    private Semaphore sem;
-    private int totalSpots;
-    private int carsServed;
-    private Logger logger;
-    public ParkingLot(int totalSpots, Logger logger)
+    private Semaphore semSpots;
+    private int NoOfcarsServed;
+    //private Logger logger;
+
+    public ParkingLot()
     {
-        this.totalSpots=totalSpots;
-        this.sem= new Semaphore(4);
-        this.logger = logger;
-        this.carsServed= 0;
+        this.semSpots= new Semaphore();
+        //this.logger = logger;
+        this.NoOfcarsServed=0;
     }
 
-    public boolean parkSpot(Car car) {
-        try {
-            if (sem.available())
+    public boolean readyToPark()
+    {
+        try
+        {
+            if(semSpots.acquire())
             {
-                sem.acquire();
-                logger.logParking(car, getOccupiedSpots());
-                carsServed++;
+                NoOfcarsServed++;
                 return true;
             }
-            else return false;
-
+            return semSpots.acquire();
         }
 
         catch (InterruptedException e)
         {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
-    public void leaveSpot(Car car) {
-        sem.release();
-        logger.logLeaving(car, getOccupiedSpots());
+    public void leaveSpot()
+    {
+        semSpots.release();
+        //logger.logLeaving(car, getOccupiedSpots());
     }
-
-    public int getOccupiedSpots() {
-        return totalSpots - 4;
+    public int getAvailableSpots()
+    {
+        return semSpots.availablePermits();
     }
-
-    public int getTotalCarsServed() {
-        return carsServed;
+    public int getTotalCarsServed()
+    {
+        return NoOfcarsServed;
     }
 }

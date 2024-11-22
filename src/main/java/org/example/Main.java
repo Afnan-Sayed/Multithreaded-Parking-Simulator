@@ -4,9 +4,11 @@ package src.main.java.org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
-                Simulation simulation = new Simulation();
-                simulation.run();
+
+        Simulation simulation = new Simulation("InputFile.txt");
+        simulation.run();
+        simulation.endSimulation();
     }
 }
